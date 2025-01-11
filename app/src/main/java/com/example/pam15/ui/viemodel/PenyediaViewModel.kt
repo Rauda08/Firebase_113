@@ -9,7 +9,10 @@ import com.example.pam15.MahasiswaApp
 object PenyediaViewModel {
     val Factory = viewModelFactory {
         initializer { HomeViewModel(mahasiswaApp().containerApp.repositoryMhs) }
+
+        initializer { InsertViewModel(mahasiswaApp().containerApp.repositoryMhs) }
     }
+
 }
 
 fun CreationExtras.mahasiswaApp(): MahasiswaApp =
