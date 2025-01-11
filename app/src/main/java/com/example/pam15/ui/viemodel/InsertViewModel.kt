@@ -1,5 +1,8 @@
 package com.example.pam15.ui.viemodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.pam15.model.Mahasiswa
 import com.example.pam15.repository.RepositoryMhs
@@ -7,8 +10,24 @@ import com.example.pam15.repository.RepositoryMhs
 class InsertViewModel(
     private val mhs: RepositoryMhs
 ) : ViewModel() {
+    var uiEvent: InsertUiState by mutableStateOf(InsertUiState())
+        private set
+    var uiState: FormState by mutableStateOf(FormState.Idle)
+        private set
+
 
 }
+
+sealed class FormState {
+    object Idle : FormState()
+    object Loading : FormState()
+    data class Success(val message: String) : FormState()
+    data class Error(val message: String) : FormState()
+}
+data class InsertUiState(
+    val insertUiEvent: MahasiswaEvent = MahasiswaEvent(),
+    val isEntryValid: FormErrorState = FormErrorState(),
+)
 
 data class FormErrorState(
     val nim: String? = null,
@@ -29,4 +48,7 @@ data class MahasiswaEvent(
     val jenisKelamin: String = "",
     val alamat: String = "", val kelas: String = "", val angkatan: String = ""
 )
+
+
+
 
