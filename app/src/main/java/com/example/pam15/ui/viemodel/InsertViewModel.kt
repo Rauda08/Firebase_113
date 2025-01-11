@@ -4,8 +4,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.pam15.model.Mahasiswa
 import com.example.pam15.repository.RepositoryMhs
+import kotlinx.coroutines.launch
 
 class InsertViewModel(
     private val mhs: RepositoryMhs
@@ -35,7 +37,32 @@ class InsertViewModel(
         return errorState.isValid()
     }
 
-    sealed class FormState {
+    fun insertMhs() {
+        if (validateFields()) { viewModelScope.launch {
+            uiState = FormState.Loading
+            try {
+                mhs.insertMhs(uiEvent.insertUiEvent.toMhsModel())
+                uiState = FormState.Success("Data berhasil disimpan")
+            } catch (e: Exception) {
+                uiState = FormState.Error("Data gagal disimpan")
+            }
+        }
+        } else {
+            uiState = FormState.Error("Data tidak valid")
+        }
+    }
+    fun resetForm() {
+        uiEvent = InsertUiState()
+        uiState = FormState.Idle
+    }
+
+    fun resetSnackBarMessage() { uiState = FormState.Idle
+    }
+}
+
+
+
+sealed class FormState {
         object Idle : FormState()
         object Loading : FormState()
         data class Success(val message: String) : FormState()
@@ -68,8 +95,7 @@ class InsertViewModel(
         val kelas: String = "",
         val angkatan: String = ""
     )
-}
-    fun InsertViewModel.MahasiswaEvent.toMhsModel(): Mahasiswa = Mahasiswa(
+    fun MahasiswaEvent.toMhsModel(): Mahasiswa = Mahasiswa(
         nim = nim,
         nama = nama,
         jenisKelamin = jenisKelamin,
