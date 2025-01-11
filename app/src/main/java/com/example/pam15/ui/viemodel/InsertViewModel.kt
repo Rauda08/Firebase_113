@@ -1,6 +1,7 @@
 package com.example.pam15.ui.viemodel
 
 import androidx.lifecycle.ViewModel
+import com.example.pam15.model.Mahasiswa
 import com.example.pam15.repository.RepositoryMhs
 
 class InsertViewModel(
@@ -8,3 +9,24 @@ class InsertViewModel(
 ) : ViewModel() {
 
 }
+
+data class FormErrorState(
+    val nim: String? = null,
+    val nama: String? = null,
+    val jenisKelamin: String? = null,
+    val alamat: String? = null,
+    val kelas: String? = null,
+    val angkatan: String? = null
+) {
+    fun isValid(): Boolean {
+        return nim == null && nama == null && jenisKelamin == null && alamat == null && kelas == null && angkatan == null
+    }
+}
+
+data class MahasiswaEvent(
+    val nim: String = "",
+    val nama: String = "",
+    val jenisKelamin: String = "",
+    val alamat: String = "", val kelas: String = "", val angkatan: String = ""
+)
+
