@@ -49,20 +49,20 @@ fun InsertMhsView(
 ) {
     val uiState = viewModel.uiState
     val snackbarHostState =
-        remember { SnackbarHostState() }// State utama untuk loading, success, error
+        remember { SnackbarHostState() }
     val uiEvent =
-        viewModel.uiEvent // State untuk form dan validasi val snackbarHostState = remember { SnackbarHostState() }
+        viewModel.uiEvent
     val coroutineScope = rememberCoroutineScope()
 
-// Observasi perubahan state untuk snackbar dan navigasi
     LaunchedEffect(uiState) {
         when (uiState) {
             is FormState.Success -> {
                 println(
-                    "InsertMhsView: uiState is FormState.Success, navigate to home " + uiState.message
+                    "InsertMhsView: uiState is FormState.Success, navigate to home "
+                            + uiState.message
                 )
                 coroutineScope.launch {
-                    snackbarHostState.showSnackbar(uiState.message) // Tampilkan snackbar
+                    snackbarHostState.showSnackbar(uiState.message)
                 }
                 delay(700)
                 onNavigate()
@@ -100,11 +100,13 @@ fun InsertMhsView(
 
             InsertBodyMhs(
                 uiState = uiEvent,
-                homeUiState = uiState, onValueChange = { updatedEvent ->
+                homeUiState = uiState,
+                onValueChange = { updatedEvent ->
                     viewModel.updateState(updatedEvent)
                 },
                 onClick = {
-                    if (viewModel.validateFields()) { viewModel.insertMhs()
+                    if (viewModel.validateFields()) {
+                        viewModel.insertMhs()
                     }
                 }
             )

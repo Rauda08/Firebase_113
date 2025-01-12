@@ -70,7 +70,8 @@ fun  HomeScreen (
     )  {  innerPadding  ->
         HomeStatus (
             homeUiState =  viewModel .mhsUIState,
-            retryAction =  {  viewModel . getMhs ()  } ,  modifier =  Modifier . padding ( innerPadding ),
+            retryAction =  {  viewModel . getMhs ()  } ,
+            modifier =  Modifier . padding ( innerPadding ),
             onDetailClick =  onDetailClick ,
             onDeleteClick =  {
                 viewModel.deleteMhs(it)
@@ -79,8 +80,6 @@ fun  HomeScreen (
         )
 
     }
-
-
 }
 
 @Composable
@@ -91,10 +90,12 @@ fun HomeStatus(
     onDeleteClick: (Mahasiswa) -> Unit = {},
     onDetailClick: (String) -> Unit
 ) {
-    var deleteConfirmationRequired by rememberSaveable { mutableStateOf<Mahasiswa?>(null) }
+    var deleteConfirm by rememberSaveable {
+        mutableStateOf<Mahasiswa?>(null) }
 
     when (homeUiState) {
-        is HomeUiState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
+        is HomeUiState.Loading ->
+            OnLoading(modifier = modifier.fillMaxSize())
 
         is HomeUiState.Success -> {
             ListMahasiswa(
@@ -106,21 +107,23 @@ fun HomeStatus(
                     onDeleteClick(it)
                 }
             )
-            deleteConfirmationRequired?.let { data ->
+            deleteConfirm?.let { data ->
                 DeleteConfirmationDialog(
                     onDeleteConfirm = {
                         onDeleteClick(data)
-                        deleteConfirmationRequired=null
+                        deleteConfirm=null
                     },
                     onDeleteCancel = {
-                        deleteConfirmationRequired=null
+                        deleteConfirm=null
                     },
                 )
             }
         }
-        is HomeUiState.Error -> OnError(
-            messaage = homeUiState.e.message ?: "error",
-            retryAction, modifier = modifier.fillMaxSize())
+        is HomeUiState.Error ->
+            OnError(
+                message = homeUiState.e.message ?: "error",
+                retryAction = retryAction,
+                modifier = modifier.fillMaxSize())
     }
 }
 
@@ -131,7 +134,7 @@ fun  OnLoading ( modifier :  Modifier  =  Modifier ) {
 
 @Composable
 fun OnError(
-    messaage: String,
+    message: String,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -176,7 +179,7 @@ fun ListMahasiswa (
 fun CardMhs (
     mhs: Mahasiswa,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = { },
+    onClick: () -> Unit = {},
     onDelete: (Mahasiswa) -> Unit = {},
 ) {
     Card (

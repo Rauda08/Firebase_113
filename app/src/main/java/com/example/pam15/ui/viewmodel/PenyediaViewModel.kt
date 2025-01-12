@@ -1,4 +1,4 @@
-package com.example.pam15.ui.viemodel
+package com.example.pam15.ui.viewmodel
 
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
