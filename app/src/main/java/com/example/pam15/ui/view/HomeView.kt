@@ -1,6 +1,5 @@
 package com.example.meet15.View
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -37,16 +35,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.pam15.R
 import com.example.pam15.model.Mahasiswa
-import com.example.pam15.ui.viemodel.HomeUiState
-import com.example.pam15.ui.viemodel.HomeViewModel
-import com.example.pam15.ui.viemodel.PenyediaViewModel
+import com.example.pam15.ui.viewmodel.HomeUiState
+import com.example.pam15.ui.viewmodel.HomeViewModel
+import com.example.pam15.ui.viewmodel.PenyediaViewModel
 
 @OptIn ( ExperimentalMaterial3Api ::class )
 @Composable
@@ -58,14 +54,16 @@ fun  HomeScreen (
 ) {
     val  scrollBehavior  =  TopAppBarDefaults . enterAlwaysScrollBehavior ()
     Scaffold (
-        modifier =  modifier . nestedScroll ( scrollBehavior .nestedScrollConnection),
+        modifier =  modifier .
+        nestedScroll ( scrollBehavior .nestedScrollConnection),
+
         floatingActionButton =  {
             FloatingActionButton (
                 onClick =  navigateToItemEntry ,
                 shape =  MaterialTheme . shapes .medium,
                 modifier =  Modifier . padding ( 18 . dp )
             )  {
-                Icon ( imageVector =  Icons .Default. Add ,  contentDescription =  "Add Kontak" )
+                Icon ( imageVector =  Icons .Default. Add ,  contentDescription =  "Add Mahasiswa" )
 
             }
         } ,
@@ -73,7 +71,9 @@ fun  HomeScreen (
         HomeStatus (
             homeUiState =  viewModel .mhsUIState,
             retryAction =  {  viewModel . getMhs ()  } ,  modifier =  Modifier . padding ( innerPadding ),
-            onDetailClick =  onDetailClick ,  onDeleteClick =  {
+            onDetailClick =  onDetailClick ,
+            onDeleteClick =  {
+                viewModel.deleteMhs(it)
                 viewModel . getMhs ()
             }
         )
@@ -98,7 +98,8 @@ fun HomeStatus(
 
         is HomeUiState.Success -> {
             ListMahasiswa(
-                listMhs = homeUiState.data, modifier = Modifier.fillMaxWidth(),
+                listMhs = homeUiState.data,
+                modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     onDetailClick(it)},
                 onDelete = {
@@ -214,7 +215,7 @@ fun CardMhs (
                 IconButton(onClick = {
                     onDelete(mhs)
                 }) {
-                    Icon(imageVector = Icons.Default.Delete, contentDescription = "")
+                    Icon(imageVector = Icons.Default.Delete, contentDescription = "Hapus data mahasiswa")
                 }
             }
             Row (
@@ -234,8 +235,9 @@ fun CardMhs (
 
 @Composable
 private fun DeleteConfirmationDialog (
-    onDeleteConfirm: () -> Unit, onDeleteCancel: () -> Unit, modifier: Modifier =
-        Modifier
+    onDeleteConfirm: () -> Unit,
+    onDeleteCancel: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     AlertDialog(onDismissRequest = { /* Do nothing */ },
         title = { Text("Delete Data") },
@@ -253,3 +255,4 @@ private fun DeleteConfirmationDialog (
         }
     )
 }
+

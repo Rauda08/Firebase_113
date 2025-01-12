@@ -1,4 +1,4 @@
-package com.example.pam15.ui.viemodel
+package com.example.pam15.ui.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,9 +37,20 @@ class HomeViewModel(
                         HomeUiState.Success(it)
                     }
                 }
+            }
+        }
+
+    fun deleteMhs(mahasiswa: Mahasiswa) {
+        viewModelScope.launch {
+            try {
+                repositoryMhs.deleteMhs(mahasiswa)
+            } catch (e: Exception) {
+                mhsUIState = HomeUiState.Error(e)
+            }
         }
     }
 }
+
 sealed class HomeUiState {
     //Loading
     object Loading : HomeUiState()
