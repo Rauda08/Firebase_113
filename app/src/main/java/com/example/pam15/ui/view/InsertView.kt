@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -29,15 +30,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.pam15.ui.viemodel.FormErrorState
-import com.example.pam15.ui.viemodel.FormState
-import com.example.pam15.ui.viemodel.InsertUiState
-import com.example.pam15.ui.viemodel.InsertViewModel
-import com.example.pam15.ui.viemodel.MahasiswaEvent
-import com.example.pam15.ui.viemodel.PenyediaViewModel
+import com.example.pam15.ui.viewmodel.FormErrorState
+import com.example.pam15.ui.viewmodel.FormState
+import com.example.pam15.ui.viewmodel.InsertUiState
+import com.example.pam15.ui.viewmodel.InsertViewModel
+import com.example.pam15.ui.viewmodel.MahasiswaEvent
+import com.example.pam15.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InsertMhsView(
     onBack: () -> Unit,
@@ -202,9 +204,9 @@ fun FormMahasiswa(
 
                 ) {
                     RadioButton(
-                        selected = mahasiswaEvent.jenisKelamin == jk,
+                        selected = mahasiswaEvent.gender == jk,
                         onClick = {
-                            onValueChange(mahasiswaEvent.copy(jenisKelamin = jk))
+                            onValueChange(mahasiswaEvent.copy(gender = jk))
                         },
                     )
                     Text(
@@ -213,7 +215,7 @@ fun FormMahasiswa(
                 }
             }
             Text(
-                text = errorState.jenisKelamin ?: "", color = Color.Red
+                text = errorState.gender ?: "", color = Color.Red
             )
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(), value = mahasiswaEvent.alamat,
