@@ -6,4 +6,4 @@ Tampilan Aplikasi
 
 ![Screenshot 2025-01-13 010811](https://github.com/user-attachments/assets/c190c5fc-cae3-4bfb-bb09-fe71395dcf01)
 
-![Screenshot 2025-01-13 170444](https://github.com/user-attachments/assets/adae48de-1e9f-42da-b2bc-1756826feb9e)
+![Screenshot 2025-01-13 170931](https://github.com/user-attachments/assets/913a5f9a-dd5a-4868-9559-98506478e18e)
